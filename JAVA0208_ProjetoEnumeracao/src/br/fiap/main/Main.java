@@ -8,7 +8,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		Funcionario f = new Funcionario("Franciso", 10000, Cargo.GERENTE);
+		Funcionario f = new Funcionario("Franciso", 1000, Cargo.VENDEDOR);
 		Venda v = new Venda(f, 1000);
 		
 		System.out.println(v.CalcularComissao());
