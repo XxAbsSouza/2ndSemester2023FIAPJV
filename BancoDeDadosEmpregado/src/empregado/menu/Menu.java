@@ -3,9 +3,13 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Double.parseDouble;
 import static javax.swing.JOptionPane.*;
 
+import java.util.List;
+
 import empregado.dao.DepartamentoDAO;
+import empregado.dao.EmpregadoDAO;
 import empregado.excecao.OpcaoInvalidaException;
 import entidade.Departamento;
+import entidade.Empregado;
 
 public class Menu {
 
@@ -70,7 +74,31 @@ public class Menu {
 	}
 
 	private void cadastrarEmpregado() {
-		// TODO Auto-generated method stub
+		DepartamentoDAO depdao = new DepartamentoDAO();
+		EmpregadoDAO empDao = new EmpregadoDAO();
+		int idEmp, idDep;
+		String nome;
+		double salario;
+
+		idEmp = parseInt(showInputDialog("ID"));
+
+	
+		if (empDao.pesquisar(idEmp)) {
+			showMessageDialog(null, "Empregado já está cadastrado!");
+		} else {
+			
+			List<Departamento> lista = depdao.listar();
+			String aux = "";
+			for (Departamento d : lista) {
+				aux += d.getId() + " " + d.getNome() + "\n";
+			}
+			nome = showInputDialog("Nome");
+			salario = parseDouble(showInputDialog("Salário"));
+			idDep = parseInt(showInputDialog(aux)); //--> mostra o departamento
+			Departamento departamento = new Departamento(idDep);
+			Empregado empregado = new Empregado(idEmp, nome, salario, departamento);
+			empDao.inserir(empregado);
+		} 
 		
 	}
 
