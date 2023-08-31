@@ -55,22 +55,58 @@ public class Menu {
 	}
 	
 	private void excluirEmpregado() {
-		
+		EmpregadoDAO emDao = new EmpregadoDAO();
+		int id = parseInt(showInputDialog("ID"));
+		Empregado empregado = emDao.pesquisar(id);
+		if (empregado == null) {
+			showMessageDialog(null, "Empregado não encontrado.");
+		} else {
+			emDao.remover(id);
+			showMessageDialog(null, "Empregado removido com sucesso.");
+		}
 	}
 
 	private void atualizarEmpregado() {
-		// TODO Auto-generated method stub
+		EmpregadoDAO emDao = new EmpregadoDAO();
+		int id = parseInt(showInputDialog("ID"));
+		Empregado empregado = emDao.pesquisar(id);
+		String novonome;
+		double novosalario;
+		if (empregado == null) {
+			showMessageDialog(null, "Empregado não encontrado.");
+		} else {
+			novonome = showInputDialog("Novo nome");
+			novosalario = parseDouble(showInputDialog("Novo Salário"));
+			empregado.setId(id);
+			empregado.setNome(novonome);
+			empregado.setSalario(novosalario);
+			/* empregado = new Empregado(id, nome, salario, null); */
+			emDao.atualizar(empregado);
+		}
 		
 	}
 
 	private void listarEmpregado() {
-		// TODO Auto-generated method stub
-		
+		EmpregadoDAO empDao = new EmpregadoDAO();
+		List<Empregado> lista = empDao.listar();
+		String aux = "";
+		int count = 1;
+		for (Empregado empregado : lista) {
+			aux = aux + "\nFuncionário #" + count + empregado;
+			count++;
+		}
+		showMessageDialog(null, aux);
 	}
 
 	private void pesquisarEmpregado() {
-		// TODO Auto-generated method stub
-		
+		EmpregadoDAO emDao = new EmpregadoDAO();
+		int id = parseInt(showInputDialog("ID"));
+		Empregado empregado = emDao.pesquisar(id);
+		if (empregado == null) {
+			showMessageDialog(null, "Empregado não encontrado.");
+		} else {
+			showMessageDialog(null, empregado);
+		}
 	}
 
 	private void cadastrarEmpregado() {
@@ -83,7 +119,7 @@ public class Menu {
 		idEmp = parseInt(showInputDialog("ID"));
 
 	
-		if (empDao.pesquisar(idEmp)) {
+		if (empDao.pesquisar(idEmp) != null) {
 			showMessageDialog(null, "Empregado já está cadastrado!");
 		} else {
 			
